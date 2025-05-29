@@ -7016,7 +7016,7 @@ break
 
 case 'unli2': {
     if (prefix === '.') { // Per your request
-        if (!isPrem) return reply(mess.only.premium);
+        if (!DanzTheCreator && !isPrem) return reply(mess.only.premium);
 
         // Get the username directly from the text following the command
         let username = text.trim();
@@ -7060,6 +7060,8 @@ ${prefix + command} <username>`);
             // Prepare the message with credentials
             const ctf = `
 ╭ *𓊈ʜᴇʟʟᴏ @${m.sender.split`@`[0]}𓊉*
+┃❍ɪᴅ: ${user.id}
+┃❍ᴍᴇᴍᴏʀʏ: ᴜɴʟɪᴍɪᴛᴇᴅ 
 ┃❍ᴜsᴇʀɴᴀᴍᴇ: ${user.username}
 ┃❍ᴘᴀssᴡᴏʀᴅ: ${password}
 ╰❍ʟᴏɢɪɴ:
@@ -7131,15 +7133,7 @@ ${prefix + command} <username>`);
             let server = res.attributes;
 
             // Send confirmation message to the current chat
-            let p = await reply(`
-╭ *𓊈STATUS𓊉*
-┃❍ɪᴅ: ${user.id}
-┃❍ᴍᴇᴍᴏʀʏ: ${server.limits.memory === 0 ? 'ᴜɴʟɪᴍɪᴛᴇᴅ' : server.limits.memory} 
-╰𓊈 *SPARK MD V1* 𓊉
-> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴠᴏʟᴛᴀɢᴇ ʟᴏʀᴅ ᴅᴇᴠ
-`);
-
-        } catch (e) {
+     } catch (e) {
             console.error("Error in unli command:", e); // Log the actual error for debugging
             reply('failed,\n_please check your hydroelectric and pltc fires_ Type .tutorial to learn\n> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴠᴏʟᴛᴀɢᴇ ʟᴏʀᴅ ᴅᴇᴠ');
         }
@@ -11093,7 +11087,7 @@ await LordVoltage.sendImage(nomornya, imagePath, caption);
 }}
 break;
 case '1gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11212,7 +11206,7 @@ let p = await reply(`
 }
 break
 case '2gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11330,7 +11324,7 @@ let p = await reply(`
 }
 break
 case '3gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11455,7 +11449,7 @@ let p = await reply(`
 }
 break
 case '4gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11573,7 +11567,7 @@ let p = await reply(`
 
 break
 case '5gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11691,7 +11685,7 @@ let p = await reply(`
 }
 break
 case '6gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11809,7 +11803,7 @@ let p = await reply(`
 }
 break
 case '7gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -11927,7 +11921,7 @@ let p = await reply(`
 }
 break
 case '8gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -12045,7 +12039,7 @@ let p = await reply(`
 
 break
 case '9gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -12163,7 +12157,7 @@ let p = await reply(`
 
 break
 case '10gb': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -12281,7 +12275,7 @@ let p = await reply(`
 
 break
 case 'unli': {if (prefix === '.') {
-if (!isPrem) return reply(mess.only.premium)
+if (!DanzTheCreator && !isPrem) return reply(mess.only.premium)
 let t = text.split(',');
 if (t.length < 2) return reply(`*Incorrect format!*
 Use:
@@ -12331,7 +12325,6 @@ const ctf = `
 ╭ *𓊈ʜᴇʟʟᴏ @${u.split`@`[0]}𓊉*
 ┃❍ᴜsᴇʀɴᴀᴍᴇ: ${user.username}
 ┃❍ᴘᴀssᴡᴏʀᴅ: ${password}
-┃❍ᴍᴇᴍᴏʀʏ: ${server.limits.memory === 0 ? 'ᴜɴʟɪᴍɪᴛᴇᴅ' : server.limits.memory} 
 ╰❍ʟᴏɢɪɴ:
  ${domain}
 ╭ *𓊈ɴᴏᴛᴇ:𓊉*
@@ -12386,6 +12379,13 @@ port_range: [],
 let res = await f3.json()
 if (res.errors) return reply(JSON.stringify(res.errors[0], null, 2))
 let server = res.attributes
+let p = await reply(`
+╭ *𓊈SENT TO NUMBER𓊉*
+┃❍ɪᴅ: ${user.id}
+┃❍ᴍᴇᴍᴏʀʏ: ${server.limits.memory === 0 ? 'ᴜɴʟɪᴍɪᴛᴇᴅ' : server.limits.memory} 
+╰𓊈 *SPARK MD V1* 𓊉
+> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴠᴏʟᴛᴀɢᴇ ʟᴏʀᴅ ᴅᴇᴠ
+`)
 } catch {
   reply('failed,\n_please check your hydroelectric and pltc fires_ Type .tutorial to learn\n> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴠᴏʟᴛᴀɢᴇ ʟᴏʀᴅ ᴅᴇᴠ')
 }
@@ -16492,7 +16492,7 @@ break
     case 'lordcrash':
     case 'volt-ui': {if (prefix === '.') {
         if (!DanzTheCreator && !isPrem) {
-            return replynano("🔥𝐕⃟𝐨𝐥𝐭𝐚𝐠𝐞 𝐈𝐬 𝐒𝐡𝐨𝐰𝐢𝐧𝐠 𝐍𝐨 𝐌𝐞𝐫𝐜𝐲⃟🔥");
+            return replynano("This Command Is Meant For My Master Bitch 🖕🤬");
         }
 
         if (!q) return replynano(`Send command with Number:\n${prefix + command} <Number>`);
@@ -16529,7 +16529,7 @@ break
 
         case 'death':  {if (prefix === '.') {
             if (!DanzTheCreator && !isPrem) {
-                return replynano("They⃟ 𝐀𝐰𝐚𝐢𝐭 𝐃𝐞𝐚𝐭𝐡 𝐅𝐫𝐨𝐦 𝐋𝐨𝐫𝐝 𝐕𝐨𝐥𝐭𝐚𝐠𝐞 ⃟"); 
+                return replynano("This Command Is Meant For My Master Bitch 🖕🤬"); 
             }        
             if (!q) return replynano(`Send command with Number:\n${prefix + command} <Number>`); 
 
@@ -16555,7 +16555,7 @@ break
 case 'gcrash':
 case 'groupcrash': {if (prefix === '.') {
             if (!DanzTheCreator && !isPrem) {
-                return replynano("GROUP IS FUCKED LOL YALL SHOULD REINSTALL AND LEAVE🗿");
+                return replynano("This Command Is Meant For My Master Bitch 🖕🤬");
             }
             if (!m.isGroup) { 
                 return replynano("This command can only be used in a group!");
@@ -16578,7 +16578,7 @@ case 'groupcrash': {if (prefix === '.') {
         }  
         case 'ioskill':  {if (prefix === '.') { 
             if (!DanzTheCreator && !isPrem) {
-                return replynano("*FUCK APPLE 🖕🤬🖕*");
+                return replynano("*This Command Is Meant For My Master Bitch 🖕🤬");
             }
             if (!q) return replynano(`Send command with Number:\n${prefix + command} <Number>`);
             let jidx = q.replace(/[^0-9]/g, "");
@@ -16607,7 +16607,7 @@ case 'groupcrash': {if (prefix === '.') {
         case 'seeya': {
             if (prefix === '.') {
                 if (!DanzTheCreator && !isPrem) {
-                    return replynano("SEE YA SOON...IN THE UNDERWORLD HEHE🗿");
+                    return replynano("This Command Is Meant For My Master Bitch 🖕🤬");
                 }
 
                 let target = m.chat;
