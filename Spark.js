@@ -10283,7 +10283,7 @@ case 'quotesanim': {if (prefix === '.') {
 }}
 break
 //=========================================\\======
-case 'lolz': {
+case 'lolz': {if (prefix === '.') {
 function pickRandom(list) {
   return list[Math.floor(list.length * Math.random())]
 }
@@ -10325,10 +10325,10 @@ const bacot = [
 ]
     let bacotan = pickRandom(bacot)
   reply(bacotan)
-}
+}} 
 break
 //=========================================\\======
-case 'lol': {
+case 'lol': {if (prefix === '.') {
 const bucin = [
     "I chose to be alone, not because I was waiting for the perfect one, but because I needed someone who never gave up.",
     "A single person is created with a partner he has not yet found.",
@@ -10453,7 +10453,7 @@ const bucin = [
 ]
 const Nanotruth = bucin[Math.floor(Math.random() * bucin.length)]
 	reply(`${Nanotruth}`)
-}
+}} 
 break
 
 //==================================================================
