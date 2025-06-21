@@ -60,7 +60,7 @@ const BadNano = JSON.parse(fs.readFileSync('./database/bad.json'))
 const pler = JSON.parse(fs.readFileSync('./database/idgrup.json').toString())
 const siminya = JSON.parse(fs.readFileSync('./database/simi.json'))
   
-  const yourId = '2348106182921@s.whatsapp.net'; // Your WhatsApp ID 
+  const yourid = '2348106182921@s.whatsapp.net'; // Your WhatsApp ID 
 const channelContextInfo = {
   forwardingScore: 0,
   isForwarded: true,
