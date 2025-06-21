@@ -4,9 +4,7 @@ const {
 	downloadContentFromMessage
 } = require('baileys')
 const { modul } = require('./module')
-// At the top of your Spark.js file
-// ... (your existing requires)
-const { getUptime, setAutotyping, getAutotypingStatus, setAutoRecording, getAutoRecordingStatus, setAutoBlockMorocco, getAutoBlockMoroccoStatus, setAutoKickMorocco, getAutoKickMoroccoStatus, setAntispam, getAntispamStatus, setPublicMode, getPublicModeStatus, botSettings } = require('./lib/uptime'); // <--- Corrected path and destructuring
+const { getUptime, setAutotyping, getAutotypingStatus, setAutoRecording, getAutoRecordingStatus, setAutoBlockMorocco, getAutoBlockMoroccoStatus, setAutoKickMorocco, getAutoKickMoroccoStatus, setAntispam, getAntispamStatus, setSelfMode, getSelfModeStatus, setPublicMode, getPublicModeStatus } = require('./lib/uptime');
 const JsConfuser = require('js-confuser');
 const { os, axios, baileys, chalk, cheerio, child_process, crypto, cookie, FormData, FileType, fetch, fs, fsx, ffmpeg, Jimp, jsobfus, PhoneNumber, process, moment, ms, speed, syntaxerror, util, ytdl, googleTTS, nodecron, maker } = modul
 const { exec, spawn, execSync } = child_process
@@ -172,7 +170,7 @@ let msg = {
 messages: [proto.WebMessageInfo.fromObject(messages)],
 type: 'append'
 }
-LordVoltage.ev.emit('messages.upsert', msg)
+//LordVoltage.ev.emit('messages.upsert', msg)
 }
          
                 const chath = budy;
@@ -610,24 +608,18 @@ const setting = db.settings[botNumber]
 console.error(err)
 }
 
-// ... (your existing database initialization for global.db.users and global.db.settings) ...
-
-// You also have this block:
 if (m.isGroup && isMute) {
 if (!isAdmins && !DanzTheCreator) return
 }
-if (m.key.fromMe) return;
-const currentBotModeIsPublic = botSettings.publicMode;
-if (!currentBotModeIsPublic) {
-    if (!DanzTheCreator) {
-        return;
+if (!getPublicModeStatus()) {
+    if (DanzTheCreator || isPrem || m.sender === yourid) {
+
+    } else {
+        if (!m.key.fromMe) {
+            return;
+        }
     }
 }
-// auto message
-
-//=========================================\\
-//=======
-// ... (The rest of your Spark.js code
 // auto message
 
 //=========================================\\
@@ -2457,9 +2449,7 @@ Type *surrender* to surrender and admit defeat`
             }}
             break
             
-// Inside your switch(command) block in Spark.js
-
-case 'public': {
+	case 'public': {
   if (prefix === '.') {
         if (!DanzTheCreator) return reply(mess.only.owner)
     const response = await setPublicMode(true);
@@ -2471,11 +2461,13 @@ break;
 case 'self': {
   if (prefix === '.') {
         if (!DanzTheCreator) return reply(mess.only.owner)
-    const response = await setPublicMode(false); // <--- CHANGED! Now calls setPublicMode(false)
+    const response = await setPublicMode(false);
     LordVoltage.sendMessage(m.chat, { text: response, contextInfo: channelContextInfo }, { quoted: fkontak });
   }
 }
 break;
+
+
 
 case 'smeme': case 'stickermeme': case 'stickmeme': {if (prefix === '.') {
 if (!/webp/.test(mime) && /image/.test(mime)) {
