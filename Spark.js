@@ -4,7 +4,9 @@ const {
 	downloadContentFromMessage
 } = require('baileys')
 const { modul } = require('./module')
-const { getUptime, setAutotyping, getAutotypingStatus, setAutoRecording, getAutoRecordingStatus, setAutoBlockMorocco, getAutoBlockMoroccoStatus, setAutoKickMorocco, getAutoKickMoroccoStatus, setAntispam, getAntispamStatus, setSelfMode, getSelfModeStatus, setPublicMode, getPublicModeStatus } = require('./lib/uptime');
+// At the top of your Spark.js file
+// ... (your existing requires)
+const { getUptime, setAutotyping, getAutotypingStatus, setAutoRecording, getAutoRecordingStatus, setAutoBlockMorocco, getAutoBlockMoroccoStatus, setAutoKickMorocco, getAutoKickMoroccoStatus, setAntispam, getAntispamStatus, setPublicMode, getPublicModeStatus, botSettings } = require('./lib/uptime'); // <--- Corrected path and destructuring
 const JsConfuser = require('js-confuser');
 const { os, axios, baileys, chalk, cheerio, child_process, crypto, cookie, FormData, FileType, fetch, fs, fsx, ffmpeg, Jimp, jsobfus, PhoneNumber, process, moment, ms, speed, syntaxerror, util, ytdl, googleTTS, nodecron, maker } = modul
 const { exec, spawn, execSync } = child_process
@@ -185,41 +187,80 @@ LordVoltage.ev.emit('messages.upsert', msg)
         const args = body.trim().split(/ +/).slice(1)
         const pushname = m.pushName || "No Name"
         const botNumber = await LordVoltage.decodeJid(LordVoltage.user.id)
-        const DanzTheCreator = [botNumber, ...owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
-        const text = q = args.join(" ")
-        const quoted = m.quoted ? m.quoted : m
-        const mime = (quoted.msg || quoted).mimetype || ''
-        const qmsg = (quoted.msg || quoted)
-        const isMedia = /image|video|sticker|audio/.test(mime)
-        const isImage = (type == 'imageMessage')
-		const isVideo = (type == 'videoMessage')
-		const isAudio = (type == 'audioMessage')
-		const isSticker = (type == 'stickerMessage')
-		const isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
-		const isQuotedViewOnce = type === 'extendedTextMessage' && content.includes('viewOnceMessageV2')
-        const isQuotedLocation = type === 'extendedTextMessage' && content.includes('locationMessage')
-        const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
-        const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
-        const isQuotedAudio = type === 'extendedTextMessage' && content.includes('audioMessage')
-        const isQuotedContact = type === 'extendedTextMessage' && content.includes('contactMessage')
-        const isQuotedDocument = type === 'extendedTextMessage' && content.includes('documentMessage')
-        const sender = m.isGroup ? (m.key.participant ? m.key.participant : m.participant) : m.key.remoteJid
-        const senderNumber = sender.split('@')[0]
-                const groupMetadata = m.isGroup ? await LordVoltage.groupMetadata(m.chat).catch(e => { console.error("Error fetching group metadata:", e); return null; }) : null;
-                const groupName = m.isGroup && groupMetadata ? groupMetadata.subject : '';
+const DanzTheCreator = [botNumber, ...owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
+const text = q = args.join(" ")
+const quoted = m.quoted ? m.quoted : m
+const mime = (quoted.msg || quoted).mimetype || ''
+const qmsg = (quoted.msg || quoted)
+const isMedia = /image|video|sticker|audio/.test(mime)
+const isImage = (type == 'imageMessage')
+const isVideo = (type == 'videoMessage')
+const isAudio = (type == 'audioMessage')
+const isSticker = (type == 'stickerMessage')
+const isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
+const isQuotedViewOnce = type === 'extendedTextMessage' && content.includes('viewOnceMessageV2')
+const isQuotedLocation = type === 'extendedTextMessage' && content.includes('locationMessage')
+const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
+const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
+const isQuotedAudio = type === 'extendedTextMessage' && content.includes('audioMessage')
+const isQuotedContact = type === 'extendedTextMessage' && content.includes('contactMessage')
+const isQuotedDocument = type === 'extendedTextMessage' && content.includes('documentMessage')
+const sender = m.isGroup ? (m.key.participant ? m.key.participant : m.participant) : m.key.remoteJid
+const senderNumber = sender.split('@')[0]
 
-        const participants = m.isGroup ? await groupMetadata.participants : ''
-        const groupAdmins = m.isGroup ? await participants.filter(v => v.admin !== null).map(v => v.id) : ''
-        const groupOwner = m.isGroup ? groupMetadata.owner : ''
-        const groupMembers = m.isGroup ? groupMetadata.participants : ''
-    	const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
-        const isGroupAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
-    	const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
-     const jangan = m.isGroup ? pler.includes(m.chat) : false
-    	const isPrem = prem.includes(m.sender)
-    	const isUser = dansyaverifikasiuser.includes(sender)
-    	const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
-    	        const mentionByTag = type == 'extendedTextMessage' && m.message?.extendedTextMessage?.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : [];
+// --- CRITICAL CHANGE FOR GROUP METADATA AND ADMINS (Complete Block - Cleaned) ---
+let groupMetadata = null;
+let participants = [];
+let groupAdmins = [];
+let groupOwner = '';
+let groupMembers = [];
+let isBotAdmins = false;
+let isGroupAdmins = false;
+let isAdmins = false; // Keeping this for consistency if you use it elsewhere
+let groupName = ''; // Initialize groupName here
+
+if (m.isGroup) {
+    try {
+        groupMetadata = await LordVoltage.groupMetadata(m.chat);
+        participants = groupMetadata.participants;
+
+        // Logic for filtering and mapping admins to JIDs
+        groupAdmins = participants
+            .filter(v => v.admin === 'admin') // Filter for actual admins (where 'admin' property is 'admin' string)
+            .map(v => {
+                // PRIORITIZE JID IF AVAILABLE (as 'jid' property or if 'id' is already JID)
+                const participantId = v.jid || v.id; 
+
+                // Ensure the ID is in the standard JID format for consistent comparison
+                if (participantId.endsWith('@lid')) {
+                    return participantId.replace(/@lid$/, '@s.whatsapp.net');
+                }
+                return participantId; 
+            });
+
+        groupOwner = groupMetadata.owner;
+        groupMembers = groupMetadata.participants;
+
+        // Ensure botNumber is also in @s.whatsapp.net format for comparison
+        const formattedBotNumber = botNumber.includes('@s.whatsapp.net') ? botNumber : botNumber.split('@')[0] + '@s.whatsapp.net'; 
+        
+        // Now, compare JIDs for admin status
+        isBotAdmins = groupAdmins.includes(formattedBotNumber);
+        isGroupAdmins = groupAdmins.includes(m.sender); // m.sender is JID, groupAdmins should now be JIDs
+        isAdmins = isGroupAdmins; // Keep this consistent if you use isAdmins elsewhere
+        groupName = groupMetadata.subject;
+    } catch (e) {
+        console.error("Error fetching group metadata:", e);
+        // If metadata fetching fails, these variables will remain as their initial empty/false values
+    }
+}
+// --- END CRITICAL CHANGE FOR GROUP METADATA AND ADMINS ---
+
+const jangan = m.isGroup ? pler.includes(m.chat) : false
+const isPrem = prem.includes(m.sender)
+const isUser = dansyaverifikasiuser.includes(sender)
+const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
+   	        const mentionByTag = type == 'extendedTextMessage' && m.message?.extendedTextMessage?.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : [];
                 const mentionByReply = type == 'extendedTextMessage' && m.message?.extendedTextMessage?.contextInfo != null ? m.message.extendedTextMessage.contextInfo.participant || '' : '';
                 const numberQuery = (q ? String(q).replace(new RegExp('[()+-/ +/]', 'gi'), '') : '') + '@s.whatsapp.net';
         const usernya = mentionByReply ? mentionByReply : mentionByTag[0]
@@ -569,16 +610,24 @@ const setting = db.settings[botNumber]
 console.error(err)
 }
 
+// ... (your existing database initialization for global.db.users and global.db.settings) ...
+
+// You also have this block:
 if (m.isGroup && isMute) {
 if (!isAdmins && !DanzTheCreator) return
 }
-
-
-if (!getPublicModeStatus()) { // Call the function and negate its result
-  if (!m.key.fromMe) return;
-  // ... rest of the code block ...
+if (m.key.fromMe) return;
+const currentBotModeIsPublic = botSettings.publicMode;
+if (!currentBotModeIsPublic) {
+    if (!DanzTheCreator) {
+        return;
+    }
 }
+// auto message
 
+//=========================================\\
+//=======
+// ... (The rest of your Spark.js code
 // auto message
 
 //=========================================\\
@@ -870,10 +919,45 @@ newsletterJid: '120363292215098632@newsletter',
     caption: body
 }}}
 
-const reply = (teks) => {
-LordVoltage.sendMessage(from, { text: teks }, { quoted : m})
+const reply = (teks) => { 
+    LordVoltage.sendMessage(from, { text: teks }, { quoted : m})
 }
+/**
+ * Checks if a command sender has the necessary group admin or creator permissions.
+ *
+ * @param {object} m The message object.
+ * @param {function} reply The reply function.
+ * @param {boolean} isGroupAdmins True if the sender is a group admin.
+ * @param {boolean} DanzTheCreator True if the sender is the bot creator.
+ * @returns {boolean} True if the sender has permission, false otherwise. If false, it also sends the appropriate reply.
+ */
+function checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator) {
+    if (!m.isGroup) {
+        reply(mess.only.group);
+        return false; // Not a group, no permission
+    }
 
+    if (DanzTheCreator) {
+        if (isGroupAdmins) {
+            // Creator is an admin, permission granted
+            return true;
+        } else {
+            // Creator is NOT an admin, specific denial message
+            reply('Make Me Admin To Use This Command');
+            return false; // Permission denied for creator if not admin
+        }
+    } else {
+        // Sender is NOT the creator
+        if (isGroupAdmins) {
+            // Not creator, but IS an admin, permission granted
+            return true;
+        } else {
+            // Not creator AND not admin, general denial message
+            reply('This command is for group admins only!');
+            return false; // Permission denied for regular non-admin
+        }
+    }
+}
 //bug functions
 const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
@@ -2308,7 +2392,6 @@ let msg = {
 }
 LordVoltage.ev.emit('messages.upsert', msg)
 }
- 
 switch (command) {
 case 'ttc': case 'ttt': case 'tictactoe': { if (prefix === '.') {
             let TicTacToe = require("./lib/tictactoe")
@@ -2374,7 +2457,9 @@ Type *surrender* to surrender and admit defeat`
             }}
             break
             
-	case 'public': {
+// Inside your switch(command) block in Spark.js
+
+case 'public': {
   if (prefix === '.') {
         if (!DanzTheCreator) return reply(mess.only.owner)
     const response = await setPublicMode(true);
@@ -2386,13 +2471,11 @@ break;
 case 'self': {
   if (prefix === '.') {
         if (!DanzTheCreator) return reply(mess.only.owner)
-    const response = await setPublicMode(false);
+    const response = await setPublicMode(false); // <--- CHANGED! Now calls setPublicMode(false)
     LordVoltage.sendMessage(m.chat, { text: response, contextInfo: channelContextInfo }, { quoted: fkontak });
   }
 }
 break;
-
-
 
 case 'smeme': case 'stickermeme': case 'stickmeme': {if (prefix === '.') {
 if (!/webp/.test(mime) && /image/.test(mime)) {
@@ -4989,8 +5072,8 @@ case 'resetgrouplink':
 case 'resetgclink':
 case 'resetgruplink': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Make My Owner Admin To Use Command')
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 LordVoltage.groupRevokeInvite(m.chat)
 }}
 break
@@ -5007,7 +5090,8 @@ LordVoltage.sendMessage(m.chat, reactionMessage)
             break
 case 'unmute': case 'mute': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!q) return replynano(`Send orders ${command} _options_\nOptions : close & open\nExample : ${command} close`)
 if (args[0] == 'close') {
   reply(`*₊˚🗝 ࣪𓂃˚☽ ｡⋆ . . .  「 _it's time_ ${botname} close the group 〞*
@@ -5036,7 +5120,8 @@ LordVoltage.groupSettingUpdate(from, 'not_announcement')
 break
 case 'autostickergc':
             case 'autosticker':{ if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args.length < 1) return replynano('type auto sticker on to enable\ntype auto sticker off to disable')
 if (args[0]  === 'on'){
 if (isAutoSticker) return replynano(`Already activated`)
@@ -5052,7 +5137,8 @@ replynano('auto sticker deactivated')
 break
 case 'nsfw': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[0] === "on") {
 if (AntiNsfw) return replynano('Already activated')
 ntnsfw.push(from)
@@ -5085,7 +5171,8 @@ replynano('Success in turning off nsfw in this group')
              
 		case 'antilink': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[0] === "on") {
 if (AntiLinkTwitter) return replynano('Already activated')
 ntilinkall.push(from)
@@ -5117,7 +5204,8 @@ replynano('𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐃𝐢𝐬𝐚𝐛
   break
 case 'antitoxic': case 'antibadword': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[0] === "on") {
 if (antiToxic) return replynano('Already activated')
 nttoxic.push(from)
@@ -5200,7 +5288,8 @@ await replynano(`Done`)
             break
 case 'add': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Make My Owner Admin To Use Command')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!DanzTheCreator) return reply(mess.only.owner)
 let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await LordVoltage.groupParticipantsUpdate(m.chat, [users], 'add')
@@ -5209,8 +5298,8 @@ await replynano(`Done`)
 break
 case 'closetime': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
-if (!isAdmins && !DanzTheCreator) return reply('Make My Owner Admin To Use Command')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[1] == 'second') {
 var timer = args[0] * `1000`
 } else if (args[1] == 'minute') {
@@ -5234,7 +5323,8 @@ break
            case 'ephemeral':
 case 'disappear': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Make My Owner Admin To Use Command')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!isAdmins) return reply('Admin only!!')
 if (!text) return replynano('Enter the value enable/disable')
 if (args[0] === 'enable') {
@@ -5246,20 +5336,26 @@ await replynano(`Done`)
             }}
             break
             case 'delete': case 'del': { if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator) return reply(mess.only.owner)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!m.quoted) throw false
 let { chat, id } = m.quoted
  LordVoltage.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: m.quoted.id, participant: m.quoted.sender } })
             }}
             break
             
-            case 'linkgroup': case 'linkgc': case 'gclink': case 'grouplink': { if (prefix === '.') {
-if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admins only')
-let response = await LordVoltage.groupInviteCode(m.chat)
-LordVoltage.sendText(m.chat, `https://chat.whatsapp.com/${response}\n\nGroup Link : ${groupMetadata.subject}`, m, { detectLink: true })
-            }}
-            break
+case 'linkgroup':
+case 'linkgc':
+case 'gclink':
+case 'grouplink': {
+    if (prefix === '.') {
+        const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
+        let response = await LordVoltage.groupInviteCode(m.chat);
+        LordVoltage.sendText(m.chat, `https://chat.whatsapp.com/${response}\n\nGroup Link : ${groupMetadata.subject}`, m, { detectLink: true });
+    }
+    break;
+}
 case 'd': { if (prefix === '.') {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
@@ -5269,7 +5365,8 @@ case 'd': { if (prefix === '.') {
             break
 case 'opentime': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[1] == 'second') {
 var timer = args[0] * `1000`
 } else if (args[1] == 'minute') {
@@ -5292,7 +5389,8 @@ replynano(open)
 break
 case 'kick': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await LordVoltage.groupParticipantsUpdate(m.chat, [users], 'remove')
 await replynano(`Done`)
@@ -5301,7 +5399,8 @@ break
 //=========================================\\
 case 'kickall': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 const users = participants.map(a => a.id)
 await LordVoltage.groupParticipantsUpdate(m.chat, [users], 'remove')
 await replynano(`Done`)
@@ -5323,7 +5422,8 @@ if (!text) return replynano(`Wheres the name?\nExample: ${prefix + command} 𝐁
     break
    case 'setnamegc': case 'setgroupname': case 'setsubject': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!text) return replynano('Text ?')
 await LordVoltage.groupUpdateSubject(m.chat, text)
 await replynano(`Done`)
@@ -5331,7 +5431,8 @@ await replynano(`Done`)
             break
           case 'setdesc': case 'setdesk': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Make My Owner Admin To Use Command')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!isAdmins) return reply('Admin only!!')
 if (!text) return replynano('Text ?')
 await LordVoltage.groupUpdateDescription(m.chat, text)
@@ -5354,7 +5455,8 @@ break
 //=========================================\\
 case 'setppgc': case 'setgcpp': case 'setgroup': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!quoted) return replynano(`Where is the picture?`)
 if (!/image/.test(mime)) return replynano(`Send/Reply to Images With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return replynano(`Send/Reply to Images With Caption ${prefix + command}`)
@@ -5387,7 +5489,8 @@ replynano(`Success`)
 break
 case 'deleteppgroup': case 'delgcpp': case 'deleteppgc': case 'delppgroup': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
     await LordVoltage.removeProfilePicture(from)
     }}
     break
@@ -5399,7 +5502,8 @@ if (!DanzTheCreator) return reply(mess.only.owner)
     break
 case 'promote': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await LordVoltage.groupParticipantsUpdate(m.chat, [users], 'promote')
 await replynano(`Done`)
@@ -5407,7 +5511,8 @@ await replynano(`Done`)
 break
 case 'demote': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await LordVoltage.groupParticipantsUpdate(m.chat, [users], 'demote')
 await replynano(`Done`)
@@ -5415,7 +5520,8 @@ await replynano(`Done`)
 break
 case 'hidetag': { if (prefix === '.') {
 if (!m.isGroup) return reply(mess.only.group)
-if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 LordVoltage.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
 }}
 break
@@ -5438,14 +5544,7 @@ if (!isAdmins && !DanzTheCreator) return reply('Admin only!!')
 case 'tagall': {
   if (prefix === '.') {
     if (!m.isGroup) return reply(mess.only.group);
-    if (!isAdmins && !DanzTheCreator) return reply('Admin only!!');
-
-    const groupMetadata = await LordVoltage.groupMetadata(m.chat);
-    const participants = groupMetadata.participants;
-    const isAdmin = participants.find(user => user.id === m.sender)?.admin === 'admin' || participants.find(user => user.id === m.sender)?.admin === 'superadmin';
-
-    if (!isAdmin) return reply('You must be an admin to use this command.');
-
+    if (!isAdmins) return reply('Admin only!!');
     me = m.sender;
     let teks = `  〘   *Tag All*   〙
  •• *Message : ${q ? q : 'empty'}* ••
@@ -10217,7 +10316,8 @@ break
 //=========================================\\======
 case 'autoaigrup':case 'aigrup': case 'autoaigc':{ if (prefix === '.') {
 if (!m.isGroup) return reply('Group Special Features!')
-if (!isAdmins && !DanzTheCreator) return reply('Admin only feature!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[0] === "on") {
 addCountCmd('#autoaigrup', m.sender, _cmd)
 if (isAutoAiGc) return reply(`It's active`)
@@ -10239,7 +10339,8 @@ break
 //=========================================\\======
 case 'welcome': if (prefix === '.') {
 if (!m.isGroup) return reply('Group Special Features!!!')
-if (!isAdmins && !DanzTheCreator) return reply('Admin only feature!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[0] === "on") {
 addCountCmd('#welcome', m.sender, _cmd)
 if (isWelcome) return reply(`It's on`)
@@ -10259,7 +10360,8 @@ reply(`${prefix+command} on -- _activate_\n${prefix+command} off -- _Disable_`)
 break
 case 'left': case 'goodbye': if (prefix === '.') {
 if (!m.isGroup) return reply('Group Special Features!')
-if (!isAdmins && !DanzTheCreator) return reply('Admin only feature!')
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (args[0] === "on") {
 addCountCmd('#left', m.sender, _cmd)
 if (isLeft) return reply(`It's on`)
@@ -14850,7 +14952,8 @@ replynano(util.format(_syntax + _err))
 }}
 break
 case 'pushcontact': {if (prefix === '.') {
-    if (!isAdmins && !DanzTheCreator) return reply(mess.only.owner)
+    const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
       if (!m.isGroup) return replynano(`The feature works only in grup`)
     if (!text) return replynano(`text?`)
     let mem = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id)
@@ -14862,7 +14965,8 @@ case 'pushcontact': {if (prefix === '.') {
       }}
       break
 case 'pushcontact2':{if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator) return reply(mess.only.owner)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!q) return replynano(`Incorrect Usage Please Use Command Like This\n${prefix+command} idgc|text`)
 reply(mess.wait)
 const metadata2 = await LordVoltage.groupMetadata(q.split("|")[0])
@@ -14876,7 +14980,8 @@ replynano(`Success`)
 break
 
 case 'pushcontact3':if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator)return reply(`For Owners Only`)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!text) return reply(`Wrong Usage Please Use Command Like This\n${prefix+command} idgroup|pause|text\nTo See Group Id Please Type .idgroup`)
 await reply("Otw Boss ")
 const groupMetadataa = !m.isGroup? await LordVoltage.groupMetadata(`${q.split("|")[0]}`).catch(e => {}) : ""
@@ -14897,7 +15002,8 @@ await sleep(q.split("|")[1])
 reply("Success Boss!")}
 break
 case 'pushcontact4':if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator) return reply(`Owners only`)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!m.isGroup) return reply(mess.only.private)
 if (!text) return reply(`Wrong Usage Please Use Command Like This\n${prefix+command} pause|text`)
 await reply("wait Boss")
@@ -14918,8 +15024,9 @@ reply("Successful!")}
 break
 
  case 'vcf':if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator)return reply(`For Owners Only`)
-if (!m.isGroup) return reply(`This command js meant for groups`)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
+if (!m.isGroup) return reply(`This command is meant for groups`)
 let cmiggc = await LordVoltage.groupMetadata(m.chat)
 let orgiggc = participants.map(a => a.id)
 vcard = ''
@@ -14938,7 +15045,8 @@ fs.unlinkSync(nmfilect)}
 break
 
 case 'cekidgc': {if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator)return replyprem(mess.premium)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 let getGroups = await LordVoltage.groupFetchAllParticipating()
 let groups = Object.entries(getGroups).slice(0).map((entry) => entry[1])
 let anu = groups.map((v) => v.id)
@@ -14951,7 +15059,8 @@ reply(teks + `To use, please type the command ${prefix}pushcontact3 id|text\n\nB
 }}
 break
 case 'savecontact': {if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator)return reply(`For Owners Only`)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!m.isGroup) return reply(mess.only.private)
 if (!text) return reply(`Wrong Usage Please Use Command Like This\n${prefix+command} idgroup\nTo See Group Id Please Type .cekidgc`)
 await reply("_Wᴀɪᴛɪɴɢ ɪɴ ᴘʀᴏɢʀᴇss !!_")
@@ -15032,7 +15141,8 @@ reply("*SUCCESFUL*")
 break
 
 case 'sendcontact': case 'kontak':if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator) return reply(`Owners only`)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!m.isGroup) return reply(`Special Group`)
 if (!m.mentionedJid[0]) return reply('Ex; .sendcontact @tag/no.')
 let snContact = {
@@ -15042,10 +15152,11 @@ LordVoltage.sendMessage(m.chat, {contacts: snContact}, {ephemeralExpiration: 864
 break
 
 case 'getcontact': case 'getkontak':if (prefix === '.') {
-if (!isAdmins && !DanzTheCreator) return reply(`Owners only`)
+const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!m.isGroup) return reply(`This feature is group specific`)
 huhuhs = await LordVoltage.sendMessage(m.chat, {
-    text: `Grup; *${groupMetadata.subject}*\nTotal participant; *${participants.length}*`
+    text: `Group; *${groupMetadata.subject}*\nTotal participant; *${participants.length}*`
 }, {quoted: m, ephemeralExpiration: 86400})
 await sleep(1000) // (?); send all member contacts
 LordVoltage.sendContact(m.chat, participants.map(a => a.id), huhuhs)}
@@ -16193,7 +16304,8 @@ case 'gdrive': {if (prefix === '.') {
 break
 case 'invite': {if (prefix === '.') {
 	if (!m.isGroup) return reply(mess.only.group)
-	if (!isAdmins && !DanzTheCreator) return reply('Make My Owner Admin To Use Command')
+	const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) {return;}
 if (!text) return replynano(`Please Enter the Number You Want to Invite\n\nExample :\n*${prefix + command}* 234xxx\n\nIf you want the group link type .linkgc`)
 if (text.includes('+')) return replynano(`Enter the number together without *+*`)
 if (isNaN(text)) return replynano(`Enter only the numbers plus your country code without spaces`)
