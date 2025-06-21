@@ -4,7 +4,7 @@ const {
 	downloadContentFromMessage
 } = require('baileys')
 const { modul } = require('./module')
-const { getUptime, setAutotyping, getAutotypingStatus, setAutoRecording, getAutoRecordingStatus, setAutoBlockMorocco, getAutoBlockMoroccoStatus, setAutoKickMorocco, getAutoKickMoroccoStatus, setAntispam, getAntispamStatus, setSelfMode, getSelfModeStatus, setPublicMode, getPublicModeStatus } = require('./lib/uptime');
+const { getUptime, setAntideleteEnabled, getAntideleteEnabled, setAutotyping, getAutotypingStatus, setAutoRecording, getAutoViewStatus, setAutoViewStatus, getAutoRecordingStatus, setAutoBlockMorocco, getAutoBlockMoroccoStatus, setAutoKickMorocco, getAutoKickMoroccoStatus, setAntispam, getAntispamStatus, setSelfMode, getSelfModeStatus, setPublicMode, getPublicModeStatus } = require('./lib/uptime');
 const JsConfuser = require('js-confuser');
 const { os, axios, baileys, chalk, cheerio, child_process, crypto, cookie, FormData, FileType, fetch, fs, fsx, ffmpeg, Jimp, jsobfus, PhoneNumber, process, moment, ms, speed, syntaxerror, util, ytdl, googleTTS, nodecron, maker } = modul
 const { exec, spawn, execSync } = child_process
@@ -2703,13 +2703,14 @@ let menya =`
 ┃➪ *.sᴇʟғ*
 ┃➪ *.ᴘᴜʙʟɪᴄ*
 ┃➪ *.ᴄʟᴇᴀʀᴄʜᴀᴛ*
-┃➪ *.ᴀᴢᴀ*
+┃➪ *ᴀᴢᴀ*
 ┃➪ *sᴇɴᴅ <ʀᴇᴘʟʏ sᴛᴀᴛᴜs>*
 ┃➪ *.ᴊᴏɪɴ*
 ┃➪ *.ʙʀᴏᴀᴅᴄᴀsᴛ*
 ┃➪ *.ᴀᴜᴛᴏᴛʏᴘɪɴɢ*
 ┃➪ *.ᴀᴜᴛᴏʀᴇᴄᴏʀᴅɪɴɢ*
 ┃➪ *.ᴀᴜᴛᴏʙʟᴏᴄᴋᴍᴀ*
+┃➪ *.ᴀᴜᴛᴏᴠɪᴇᴡsᴛᴀᴛᴜs*
 ┃➪ *.ᴀɴᴛɪᴄᴀʟʟ*
 ┃➪ *.ᴀᴜᴛᴏʀᴇᴀᴄᴛ*
 ┃➪ *.ᴘᴏʟʟ*
@@ -2722,7 +2723,7 @@ let menya =`
 ┃➪ *.sᴇᴛʙɪᴏ*
 ┃➪ *.ᴅᴇʟᴘᴘʙᴏᴛ*
 ┃➪ *.ʀᴇsᴛᴀʀᴛ*
-┃➪ *.sᴇᴛᴘᴘʙᴏᴛ*
+┃➪ *.sᴇᴛᴘᴘ*
 ┃➪ *.ᴀᴅᴘᴏʀᴇᴍ*
 ┃➪ *.ᴅᴇʟᴘʀᴇᴍ*
 ┃➪ *.ᴀᴅᴅᴏᴡɴᴇʀ*
@@ -6941,10 +6942,53 @@ case 'autotyping': {
       responseText = `Usage: ${prefix}autotyping on | off`;
     }
     LordVoltage.sendMessage(m.chat, { text: responseText, contextInfo: channelContextInfo }, { quoted: fkontak });
-  }
-}
-break;
+}}
+break
+            case 'antidelete':
+            case 'antideleteon':
+            case 'antideleteoff':
+                  if (prefix === '.') {
+      if (!DanzTheCreator) return reply(mess.only.owner)
+                if (args.length === 0 && command === 'antidelete') {
+                    const status = getAntideleteEnabled() ? 'ENABLED' : 'DISABLED';
+                    return m.reply(`Antidelete is currently *${status}*.\n\nUsage:\n.antidelete on\n.antidelete off`);
+                }
 
+                const enable = args[0] === 'on' || command === 'antideleteon';
+                const disable = args[0] === 'off' || command === 'antideleteoff';
+
+                if (enable) {
+                    const result = await setAntideleteEnabled(true);
+                    m.reply(result);
+                } else if (disable) {
+                    const result = await setAntideleteEnabled(false);
+                    m.reply(result);
+                } else {
+                    m.reply(`Invalid argument for antidelete. Use 'on' or 'off'.\n\nUsage:\n.antidelete on\n.antidelete off`);
+                }}
+                break;
+case 'autoviewstatus':
+case 'autostatus': { // Adding 'viewstatus' as an alias as well
+    if (prefix === '.') { // Check for '.' prefix as per your example
+        // Owner or Bot Developer check
+if (!DanzTheCreator) return reply(mess.only.owner)
+        const action = args.join(' ').toLowerCase(); // Get 'on' or 'off' from arguments
+        let responseText;
+        if (action === 'on') {
+            const response = await setAutoViewStatus(true); // Call the function to enable auto-view
+            responseText = response;
+        } else if (action === 'off') {
+            const response = await setAutoViewStatus(false); // Call the function to disable auto-view
+            responseText = response;
+        } else {
+            // Usage message if 'on' or 'off' is not provided
+            responseText = `Usage: ${prefix}autoviewstatus on | off`;
+        }
+        // Send the reply with contextInfo and quoted message
+        LordVoltage.sendMessage(m.chat, { text: responseText, contextInfo: channelContextInfo }, { quoted: fkontak });
+    }
+}
+break; // Don't forget the break;
 case 'autorecording':
 case 'autorecord': {
   if (prefix === '.') {
