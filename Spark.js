@@ -1,5 +1,5 @@
 require('./lib/lowdb/adapters/settings')
-require('./config')
+require('./database/config')
 const {
 	downloadContentFromMessage
 } = require('baileys')
@@ -91,8 +91,6 @@ let ntilinkig =JSON.parse(fs.readFileSync('./database/antilinkinstagram.json'))
 let ntilinkytch =JSON.parse(fs.readFileSync('./database/antilinkytchannel.json'))
 let ntilinkytvid =JSON.parse(fs.readFileSync('./database/antilinkytvideo.json'))
 let openaigc = JSON.parse(fs.readFileSync('./database/openaigc.json'))
-let set_welcome_db = JSON.parse(fs.readFileSync('./database/set_welcome.json'));
-let set_left_db = JSON.parse(fs.readFileSync('./database/set_left.json'));
 let _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
 let _left = JSON.parse(fs.readFileSync('./database/left.json'))
 let set_proses = JSON.parse(fs.readFileSync('./database/set_proses.json'))
@@ -2639,7 +2637,7 @@ case 'ping': {
       let chan = `
 ╭ *𓊈SPARK MD V1𓊉*
 ┃❍ *𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 𝐓𝐢𝐦𝐞:*
-┃ *_${responseTime} 𝐌𝐒_*
+┃ *_${latensi.toFixed(4)} 𝐒_*
 ╰ *𓊈𝐀𝐭 𝐘𝐨𝐮𝐫 𝐒𝐞𝐫𝐯𝐢𝐜𝐞!𓊉*
 > вєѕт αυтσмαтє∂ ωнтѕαρρ вσт™
 `;
@@ -2690,7 +2688,7 @@ let menya =`
 ╭ *𓊈SPARK MD V1𓊉*   
 ┃❍ *ᴘʀᴇғɪx:* .
 ┃❍ *ᴍᴏᴅᴇ:* ${getPublicModeStatus() ? 'ᴘᴜʙʟɪᴄ' : 'sᴇʟғ'}
-┃❍ *ᴠᴇʀsɪᴏɴ:* *1.0.2*
+┃❍ *ᴠᴇʀsɪᴏɴ:* *1.8.0*
 ┃❍ *ᴅᴀᴛᴇ:* ${xdate}
 ┃❍ *ᴜsᴇʀ:* *${pushname}*
 ┃❍ *ʀᴜɴᴛɪᴍᴇ:* ${uptime}
@@ -2735,7 +2733,7 @@ let menya =`
 ┃➪ *.ᴅᴇʟᴘᴘʙᴏᴛ*
 ┃➪ *.ʀᴇsᴛᴀʀᴛ*
 ┃➪ *.sᴇᴛᴘᴘ*
-┃➪ *.ᴀᴅᴘᴏʀᴇᴍ*
+┃➪ *.ᴀᴅᴅᴘʀᴇᴍ*
 ┃➪ *.ᴅᴇʟᴘʀᴇᴍ*
 ┃➪ *.ᴀᴅᴅᴏᴡɴᴇʀ*
 ┃➪ *.ᴀᴅᴅᴏᴡɴᴇʀ*
@@ -2767,6 +2765,10 @@ let menya =`
 ┃➪ *.ᴅᴇʟ*
 ┃➪ *.ᴄʟᴏsᴇᴛɪᴍᴇ*
 ┃➪ *.ᴏᴘᴇɴᴛɪᴍᴇ*
+┃➪ *.ᴀᴅᴅʟɪsᴛ*
+┃➪ *.ᴅᴇʟʟɪsᴛ*
+┃➪ *.ᴜᴘᴅᴀᴛᴇʟɪsᴛ*
+┃➪ *.ʟɪsᴛ*
 ┃➪ *.sᴇᴛɢᴄᴘᴘ*
 ┃➪ *.ᴅᴇʟɢᴄᴘᴘ*
 ┃➪ *.sᴇᴛɴᴀᴍᴇ*
@@ -4500,7 +4502,7 @@ break
 
 //=================={{=[===================]]\\
 
-case 'santet' : case '🌷' : case '🐲': case '🐉': case '🌵': case '🎄': case '🌲': case '🌳': case '🌱': case '🌿': case '🍀': case '☘️': { if (prefix === '.') {
+case 'sanet' : case '🌷' : case '🐲': case '🐉': case '🌵': case '🎄': case '🌲': case '🌳': case '🌱': case '🌿': case '🍀': case '☘️': { if (prefix === '.') {
  if (!DanzTheCreator) return reply(mess.only.owner)
 const { xeonorwot } = require('./virtex/xeonbut2')
 let reactionMessage = proto.Message.ReactionMessage.create({ key: m.key, text: "💀" })
@@ -5419,7 +5421,7 @@ if (!text) return replynano(`Where's the name?\Example: ${prefix + command} SPAR
     break
 case 'setbotbio':{ if (prefix === '.') {
 if (!DanzTheCreator) return reply(mess.only.owner)
-if (!text) return replynano(`Wheres the name?\nExample: ${prefix + command} 𝐁𝐌𝐁 `)
+if (!text) return replynano(`Wheres the name?\nExample: ${prefix + command} VOLTAGE `)
     await LordVoltage.updateProfileStatus(text)
     replynano(`Success in changing the bio of bot's number`)
     }}
@@ -10316,11 +10318,11 @@ await LordVoltage.sendMessage(
 break
 case 'gpt4':
 case 'gpt': { if (prefix === '.') {
-	if (!text) return replynano(`*• Example:* ${prefix + command} Botz Is`);   
+	if (!text) return replynano(`*• Example:* ${prefix + command} what model are you`);   
 await LordVoltage.sendMessage(m.chat, { react: { text: "🤔",key: m.key,}}) 
         try {
 let gpt = await fetchJson(`https://apis.davidcyriltech.my.id/ai/chatbot?query=${text}`)
-const ai = "GPT 4\n\n" + gpt.result
+const ai = "*(✿╹◡╹)ﾉʰᵉˡˡᵒ♡*\n\n" + gpt.result
 replynano(ai)
  } catch(e) {
  return replynano("`*Error:(*` \n\n" + e)
@@ -10383,49 +10385,83 @@ reply(`${prefix+command} on -- _mengaktifkan_\n${prefix+command} off -- _Menonak
 }}}
 break
 
-//=========================================\\======
-case 'welcome': if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!!!')
-const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
-        if (!hasPermission) {return;}
-if (args[0] === "on") {
-addCountCmd('#welcome', m.sender, _cmd)
-if (isWelcome) return reply(`It's on`)
-_welcome.push(m.chat)
-fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome, null, 2))
-reply('Successfully activated welcome to this group')
-} else if (args[0] === "off") {
-addCountCmd('#welcome', m.sender, _cmd)
-if (!isWelcome) return reply(`It's off`)
-let anu = _welcome.indexOf(m.chat)
-_welcome.splice(anu, 1)
-fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome, null, 2))
-reply('Successfully deactivated welcome in this group')
-} else {
-reply(`${prefix+command} on -- _activate_\n${prefix+command} off -- _Disable_`)
-}}
-break
-case 'left': case 'goodbye': if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
-        if (!hasPermission) {return;}
-if (args[0] === "on") {
-addCountCmd('#left', m.sender, _cmd)
-if (isLeft) return reply(`It's on`)
-_left.push(m.chat)
-fs.writeFileSync('./database/left.json', JSON.stringify(_left, null, 2))
-reply('Successfully activated goodbye in this group')
-} else if (args[0] === "off") {
-addCountCmd('#left', m.sender, _cmd)
-if (!isLeft) return reply(`It's off`)
-let anu = _left.indexOf(m.chat)
-_left.splice(anu, 1)
-fs.writeFileSync('./database/welcome.json', JSON.stringify(_left, null, 2))
-reply('Successfully deactivated goodbye in this group')
-} else {
-reply(`${prefix+command} on -- _activate_\n${prefix+command} off -- _ Disable _`)
-}}
-break
+// ==========================================\\======
+case 'welcome':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!!!');
+
+        const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) { return; }
+
+        // Determine if welcome is currently enabled for this group
+        const isWelcomeEnabledForGroup = _welcome.includes(m.chat);
+
+        if (args[0] === "on") {
+            // Assuming addCountCmd exists and is accessible
+            // addCountCmd('#welcome', m.sender, _cmd);
+
+            if (isWelcomeEnabledForGroup) return reply(`Welcome messages are already enabled for this group.`);
+
+            _welcome.push(m.chat);
+            fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome, null, 2));
+            reply('Successfully activated welcome messages for this group.');
+
+        } else if (args[0] === "off") {
+            // addCountCmd('#welcome', m.sender, _cmd);
+
+            if (!isWelcomeEnabledForGroup) return reply(`Welcome messages are already disabled for this group.`);
+
+            let anu = _welcome.indexOf(m.chat);
+            if (anu !== -1) { // Only splice if found
+                _welcome.splice(anu, 1);
+            }
+            fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome, null, 2));
+            reply('Successfully deactivated welcome messages for this group.');
+
+        } else {
+            reply(`${prefix+command} on -- _Activate welcome messages_\n${prefix+command} off -- _Disable welcome messages_`);
+        }
+    }
+    break;
+
+case 'left':
+case 'goodbye':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+
+        const hasPermission = checkGroupAdminPermission(m, reply, isGroupAdmins, DanzTheCreator);
+        if (!hasPermission) { return; }
+
+        // Determine if leave is currently enabled for this group
+        const isLeftEnabledForGroup = _left.includes(m.chat);
+
+        if (args[0] === "on") {
+            // addCountCmd('#left', m.sender, _cmd);
+
+            if (isLeftEnabledForGroup) return reply(`Goodbye messages are already enabled for this group.`);
+
+            _left.push(m.chat);
+            fs.writeFileSync('./database/left.json', JSON.stringify(_left, null, 2));
+            reply('Successfully activated goodbye messages for this group.');
+
+        } else if (args[0] === "off") {
+            // addCountCmd('#left', m.sender, _cmd);
+
+            if (!isLeftEnabledForGroup) return reply(`Goodbye messages are already disabled for this group.`);
+
+            let anu = _left.indexOf(m.chat);
+            if (anu !== -1) { // Only splice if found
+                _left.splice(anu, 1);
+            }
+            // 🛑 CRITICAL FIX: Ensure you write to left.json, not welcome.json 🛑
+            fs.writeFileSync('./database/left.json', JSON.stringify(_left, null, 2));
+            reply('Successfully deactivated goodbye messages for this group.');
+
+        } else {
+            reply(`${prefix+command} on -- _Activate goodbye messages_\n${prefix+command} off -- _Disable goodbye messages_`);
+        }
+    }
+    break;
  // Make sure you have fs required at the top of Spark.js
 
 // ... your other requires ...
@@ -10466,69 +10502,121 @@ case 'onlypc':
 
 // ... your other command cases ...
 
-case 'setwelcome':if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!')
-if (!text) return reply(`Use it with ${prefix+command} *text_welcome*\n\n_Example_\n\n${prefix+command} Hello @user, Welcome to @group`)
-if (isSetWelcome(m.chat, set_welcome_db)) return reply(`Set welcome already active`)
-addSetWelcome(text, m.chat, set_welcome_db)
-addCountCmd('#setwelcome', m.sender, _cmd)
-reply(`Successfully set welcome!`)}
-break
-case 'changewelcome':if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!')
-if (!text) return reply(`Use it with ${prefix+command} *text_welcome*\n\n_Example_\n\n${prefix+command} Hello @user, Welcome to @group`)
-if (isSetWelcome(m.chat, set_welcome_db)) {
-addCountCmd('#changewelcome', m.sender, _cmd)
-changeSetWelcome(q, m.chat, set_welcome_db)
-reply(`Successful change set welcome text!`)
-} else {
-addCountCmd('#changewelcome', m.sender, _cmd)
-addSetWelcome(q, m.chat, set_welcome_db)
-reply(`Successful change set welcome text!`)
-}}
-break
-case 'delsetwelcome':if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!')
-if (!isSetWelcome(m.chat, set_welcome_db)) return reply(`There is no welcome set here yet..`)
-removeSetWelcome(m.chat, set_welcome_db)
-addCountCmd('#delsetwelcome', m.sender, _cmd)
-reply(`Successfully deleted set welcome`)}
-break
-case 'setleft':if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!')
-if (!text) return reply(`Use it by ${prefix + command} *text_left*\n\n_Example_\n\n${prefix + command} Hello @user, Goodbye from @group`)
-if (isSetLeft(m.chat, set_left_db)) return reply(`Set left already active`)
-addCountCmd('#setleft', m.sender, _cmd)
-addSetLeft(q, m.chat, set_left_db)
-reply(`Successfully set left!`)}
-break
-case 'changeleft':if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!')
-if (!text) return reply(`Use it by ${prefix + command} *text_left*\n\n_Example_\n\n${prefix + command} Hello @user, Goodbye from @group`)
-if (isSetLeft(m.chat, set_left_db)) {
-addCountCmd('#changeleft', m.sender, _cmd)
-changeSetLeft(q, m.chat, set_left_db)
-reply(`Successfully change set left text!`)
-} else {
-addCountCmd('#changeleft', m.sender, _cmd)
-addSetLeft(q, m.chat, set_left_db)
-reply(`Successfully change set left text!`)
-}}
-break
-case 'delsetleft':if (prefix === '.') {
-if (!m.isGroup) return reply('Group Special Features!')
-if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!')
-if (!isSetLeft(m.chat, set_left_db)) return reply(`There is no set left here yet..`)
-addCountCmd('#delsetleft', m.sender, _cmd)
-removeSetLeft(m.chat, set_left_db)
-reply(`Successfully delete set left`)}
-break
-//=========================================\\======
+// ==========================================\\======
+case 'setwelcome':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+        // Assuming DanzTheCreator and isAdmins are defined in this scope
+        if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!');
+        if (!text) return reply(`Use it with ${prefix+command} *text_welcome*\n\n_Example_\n\n${prefix+command} Hello @user, Welcome to @group`);
+
+        // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+        if (isSetWelcome(m.chat)) return reply(`Set welcome already active`);
+
+        // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+        addSetWelcome(text, m.chat); // Note: using 'text' as the message content, assuming 'q' isn't defined here
+        // Assuming addCountCmd exists
+        // addCountCmd('#setwelcome', m.sender, _cmd);
+        reply(`Successfully set welcome!`);
+    }
+    break;
+
+case 'changewelcome':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+        if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!');
+        if (!text) return reply(`Use it with ${prefix+command} *text_welcome*\n\n_Example_\n\n${prefix+command} Hello @user, Welcome to @group`);
+
+        // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+        if (isSetWelcome(m.chat)) {
+            // addCountCmd('#changewelcome', m.sender, _cmd);
+            // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+            changeSetWelcome(q, m.chat); // Assuming 'q' holds the message content here
+            reply(`Successfully changed set welcome text!`);
+        } else {
+            // addCountCmd('#changewelcome', m.sender, _cmd);
+            // If it's not set, 'changewelcome' should probably add it, or give an error.
+            // Your current logic adds it, which is fine.
+            // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+            addSetWelcome(q, m.chat); // Assuming 'q' holds the message content here
+            reply(`Successfully set welcome! (It wasn't set before)`); // More descriptive message
+        }
+    }
+    break;
+
+case 'delsetwelcome':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+        if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!');
+
+        // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+        if (!isSetWelcome(m.chat)) return reply(`There is no welcome set here yet..`);
+
+        // 🛑 CORRECTED: Removed 'set_welcome_db' argument 🛑
+        removeSetWelcome(m.chat);
+        // addCountCmd('#delsetwelcome', m.sender, _cmd);
+        reply(`Successfully deleted set welcome`);
+    }
+    break;
+case 'setleft':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+        // Assuming DanzTheCreator and isAdmins are defined in this scope
+        if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!');
+        if (!text) return reply(`Use it by ${prefix + command} *text_left*\n\n_Example_\n\n${prefix + command} Hello @user, Goodbye from @group`);
+
+        // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+        if (isSetLeft(m.chat)) return reply(`Set left already active`);
+
+        // Assuming addCountCmd exists
+        // addCountCmd('#setleft', m.sender, _cmd);
+
+        // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+        addSetLeft(q, m.chat);
+        reply(`Successfully set left!`);
+    }
+    break;
+
+case 'changeleft':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+        if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!');
+        if (!text) return reply(`Use it by ${prefix + command} *text_left*\n\n_Example_\n\n${prefix + command} Hello @user, Goodbye from @group`);
+
+        // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+        if (isSetLeft(m.chat)) {
+            // addCountCmd('#changeleft', m.sender, _cmd);
+
+            // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+            changeSetLeft(q, m.chat);
+            reply(`Successfully changed set left text!`);
+        } else {
+            // addCountCmd('#changeleft', m.sender, _cmd);
+
+            // If it's not set, 'changeleft' should probably add it, or give an error.
+            // Your current logic adds it, which is fine.
+            // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+            addSetLeft(q, m.chat);
+            reply(`Successfully set left! (It wasn't set before)`); // More descriptive message
+        }
+    }
+    break;
+
+case 'delsetleft':
+    if (prefix === '.') {
+        if (!m.isGroup) return reply('Group Special Features!');
+        if (!DanzTheCreator && !isAdmins) return reply('Special Owner Features!');
+
+        // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+        if (!isSetLeft(m.chat)) return reply(`There is no set left here yet..`);
+
+        // addCountCmd('#delsetleft', m.sender, _cmd);
+
+        // 🛑 CORRECTED: Removed 'set_left_db' argument 🛑
+        removeSetLeft(m.chat);
+        reply(`Successfully deleted set left`);
+    }
+    break;
 
 case 'report': {if (prefix === '.') {
 replynano(` =====[ *DEVELOPER OF SPARK MD* ]===== 
@@ -12631,7 +12719,7 @@ let thumb =
     if (value === "create") {
         if (chat in ww) return m.reply("The group is still in the game session");
         if (playerOnGame(sender, ww) === true)
-            return m.reply("Kamu masih dalam sesi game");
+            return m.reply("You are still in a game session.");
         ww[chat] = {
             room: chat,
             owner: sender,
@@ -12639,7 +12727,7 @@ let thumb =
             iswin: null,
             cooldown: null,
             day: 0,
-            time: "malem",
+            time: "evening",
             player: [],
             dead: [],
             voting: false,
@@ -12757,11 +12845,11 @@ let thumb =
             // [ Werewolf ]
             if (ww[chat].player[i].role === "werewolf") {
                 if (ww[chat].player[i].isdead != true) {
-                    var textt = `ᴡᴀɢᴡᴀɴ ${LordVoltage.getName(
+                    var textt = `Hello ${LordVoltage.getName(
               ww[chat].player[i].id
             )}, You have been chosen to play a *Werewolf* ${emoji_role(
               "werewolf"
-            )} In this game, please choose one of the players you want to eat tonight\n*LIST PLAYER*:\n${list2}\n\nKetik *.wwpc kill number* to kill the player`;
+            )} In this game, please choose one of the players you want to eat tonight\n*LIST PLAYER*:\n${list2}\n\nType *.wwpc kill number* to kill the player`;
                     
                     let row = [];
                     for (let p = 0; p < ww[chat].player.length; p++) {
@@ -12776,9 +12864,9 @@ let thumb =
                     ];
                     const listMessage = {
                       text: text,
-                      footer: `Player Hidup: ${playerHidup(
+                      footer: `Player Life: ${playerHidup(
                         sesi(m.chat, ww)
-                      )} Player Mati: ${playerMati(sesi(m.chat, ww))}`,
+                      )} Player Dead: ${playerMati(sesi(m.chat, ww))}`,
                       title: "⌂ W E R E W O L F - G A M E\n",
                       buttonText: "Click here!",
                       sections,
@@ -12793,9 +12881,9 @@ let thumb =
                 }
 
                 // [ villager ]
-            } else if (ww[chat].player[i].role === "warga") {
+            } else if (ww[chat].player[i].role === "villager") {
                 if (ww[chat].player[i].isdead != true) {
-                    let texttt = `*⌂ W E R E W O L F - G A M E*\n\nWagwan ${LordVoltage.getName(
+                    let texttt = `*⌂ W E R E W O L F - G A M E*\n\nHello ${LordVoltage.getName(
               ww[chat].player[i].id
             )} Your role is *Village Resident* ${emoji_role(
               "inhabitant"
@@ -12809,11 +12897,11 @@ let thumb =
                 // [ Penerawangan ]
             } else if (ww[chat].player[i].role === "seer") {
                 if (ww[chat].player[i].isdead != true) {
-                    let texxt = `Wagwan ${LordVoltage.getName(
+                    let texxt = `Hello ${LordVoltage.getName(
               ww[chat].player[i].id
             )} You have been chosen to be a *Seeker* ${emoji_role(
               "seer"
-            )}. With the magic you have, you can find out the role of the player you choose.\n*LIST PLAYER*:\n${list1}\n\nKetik *.wwpc dreamy number* to see the role player`;
+            )}. With the magic you have, you can find out the role of the player you choose.\n*LIST PLAYER*:\n${list1}\n\n Type *.wwpc dreamy number* to see the role player`;
                     
                      let row = [];
                      for (let p = 0; p < ww[chat].player.length; p++) {
@@ -12847,11 +12935,11 @@ let thumb =
                 // [ Guardian ]
             } else if (ww[chat].player[i].role === "guardian") {
                 if (ww[chat].player[i].isdead != true) {
-                    let teext = `Wagwan ${LordVoltage.getName(
+                    let teext = `Hello ${LordVoltage.getName(
               ww[chat].player[i].id
             )} You were chosen to play the *Guardian Angel* ${emoji_role(
               "guardian"
-            )}, With the power you have, you can protect the citizens, please choose one player you want to protect\n*LIST PLAYER*:\n${list1}\n\nKetik *.wwpc deff number* to protect players`;
+            )}, With the power you have, you can protect the citizens, please choose one player you want to protect\n*LIST PLAYER*:\n${list1}\n\nType *.wwpc deff number* to protect players`;
                     
                     let row = [];
                     for (let p = 0; p < ww[chat].player.length; p++) {
@@ -12885,11 +12973,11 @@ let thumb =
                 // [ Sorcerer ]
             } else if (ww[chat].player[i].role === "sorcerer") {
                 if (ww[chat].player[i].isdead != true) {
-                    let textu = `Wagwan ${LordVoltage.getName(
+                    let textu = `Hello ${LordVoltage.getName(
               ww[chat].player[i].id
             )} You were chosen as a Wizard ${emoji_role(
               "sorcerer"
-            )}, With the power you have, you can reveal the identities of the players, please select 1 person whose identity you want to reveal\n*LIST PLAYER*:\n${list2}\n\nKetik *.wwpc sorcerer number* to see the player role`;
+            )}, With the power you have, you can reveal the identities of the players, please select 1 person whose identity you want to reveal\n*LIST PLAYER*:\n${list2}\n\nType *.wwpc sorcerer number* to see the player role`;
                     
                     let row = [];
                     for (let p = 0; p < ww[chat].player.length; p++) {
@@ -12959,7 +13047,7 @@ let thumb =
         if (getPlayerById(chat, sender, parseInt(target), ww) === false)
             return m.reply("Player not registered!");
         vote(chat, parseInt(target), sender, ww);
-        return m.reply("🙂 Vote");
+        return m.reply("Vote");
     } else if (value == "exit") {
         if (!ww[chat]) return m.reply("No gaming sessions");
         if (playerOnRoom(sender, chat, ww) === false)
@@ -12974,7 +13062,7 @@ let thumb =
         if (!ww[chat]) return m.reply("No gaming sessions");
         if (ww[chat].owner !== sender)
             return m.reply(
-                `Hanya @${
+                `Only @${
             ww[chat].owner.split("@")[0]
           } which can delete this game session`
             );
@@ -13250,13 +13338,13 @@ break
 case 'list': case 'store':{if (prefix === '.') {
 if (db_respon_list.length === 0) return reply(`There is no message list in the database yet`)
 if (!isAlreadyResponListGroup(m.chat, db_respon_list)) return reply(`There is no list of messages registered in this group yet`)
-let teks = `Halo @${m.sender.split("@")[0]} The following is a list of what is currently available.\n\n`
+let teks = `hello @${m.sender.split("@")[0]} The following is a list of what is currently available.\n\n`
 for (let i of db_respon_list) {
 if (i.id === m.chat) {
 teks += `- ${i.key.toUpperCase()}\n`
 }
 }
-teks += `\n\nTo view product details, please send the product name in the list above. For example, you want to see product details from ${db_respon_list[0].key.toUpperCase()}, then send a message ${db_respon_list[0].key.toUpperCase()} kepada bot`
+teks += `\n\nTo view product details, please send the product name in the list above. For example, you want to see product details from ${db_respon_list[0].key.toUpperCase()}, then send a message ${db_respon_list[0].key.toUpperCase()} to the bot`
 LordVoltage.sendMessage(m.chat, {text: teks, mentions: [m.sender]}, {quoted:m}) 
 }}
 break
@@ -14668,10 +14756,10 @@ var notnot = JSON.parse(fs.readFileSync('./data/voltage/sparkmedia/tiktokpics/ra
 var hasil = pickRandom(notnot)
 LordVoltage.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })}
 break
-case 'tWagwan':if (prefix === '.') {
+case 'tHello':if (prefix === '.') {
   if (!isPrem) return replyprem(mess.premium)
 reply(mess.wait)
-var notnot = JSON.parse(fs.readFileSync('./data/voltage/sparkmedia/tiktokpics/tWagwanland.json'))
+var notnot = JSON.parse(fs.readFileSync('./data/voltage/sparkmedia/tiktokpics/tHelloland.json'))
 var hasil = pickRandom(notnot)
 LordVoltage.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })}
 break
@@ -15134,7 +15222,7 @@ fs.writeFileSync("./all/database/contacts.vcf", vcardContent, "utf8");
 } catch (err) {
 reply(util.format(err))
 } finally {
-await LordVoltage.sendMessage(from, { document: fs.readFileSync("./database/contacts.vcf"), fileName: "𝐁𝐌𝐁.vcf", caption: "Success Just Save, Brother", mimetype: "text/vcard", }, { quoted: m })
+await LordVoltage.sendMessage(from, { document: fs.readFileSync("./database/contacts.vcf"), fileName: "VOLTAGE.vcf", caption: "Success Just Save, Brother", mimetype: "text/vcard", }, { quoted: m })
 contacts.splice(0, contacts.length)
 fs.writeFileSync("./database/contacts.json", JSON.stringify(contacts))
 }
