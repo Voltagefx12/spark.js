@@ -1,5 +1,5 @@
 require('./lib/lowdb/adapters/settings')
-require('./database/config')
+require('./config')
 const {
 	downloadContentFromMessage
 } = require('baileys')
