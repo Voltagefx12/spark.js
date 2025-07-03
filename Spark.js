@@ -12907,7 +12907,7 @@ let thumb =
                      for (let p = 0; p < ww[chat].player.length; p++) {
                        row.push({
                          title: `Check Player ${ww[chat].player[p].number}`,
-                         rowId: `.ww dreamy ${ww[chat].player[p].number}`,
+                         rowId: `.wwpc dreamy ${ww[chat].player[p].number}`,
                          description: `To see the player's identity ${ww[chat].player[p].number}`,
                        });
                      }
@@ -12916,9 +12916,9 @@ let thumb =
                      ];
                      const listMessage = {
                        text: text,
-                       footer: `Player Hidup: ${playerHidup(
+                       footer: `Live Player: ${playerHidup(
                          sesi(m.chat, ww)
-                       )} Player Mati: ${playerMati(sesi(m.chat, ww))}`,
+                       )} Dead Player: ${playerMati(sesi(m.chat, ww))}`,
                        title: "⌂ W E R E W O L F - G A M E\n",
                        buttonText: "Click here!",
                        sections,
@@ -12945,7 +12945,7 @@ let thumb =
                     for (let p = 0; p < ww[chat].player.length; p++) {
                       row.push({
                         title: `Protect Players ${ww[chat].player[p].number}`,
-                        rowId: `.ww deff ${ww[chat].player[p].number}`,
+                        rowId: `.wwpc deff ${ww[chat].player[p].number}`,
                         description: `To protect players ${ww[chat].player[p].number}`,
                       });
                     }
@@ -12954,9 +12954,9 @@ let thumb =
                     ];
                     const listMessage = {
                       text: text,
-                      footer: `Player Hidup: ${playerHidup(
+                      footer: `Live Player: ${playerHidup(
                         sesi(m.chat, ww)
-                      )} Player Mati: ${playerMati(sesi(m.chat, ww))}`,
+                      )} Dead Player: ${playerMati(sesi(m.chat, ww))}`,
                       title: "⌂ W E R E W O L F - G A M E\n",
                       buttonText: "Click here!",
                       sections,
@@ -12983,7 +12983,7 @@ let thumb =
                     for (let p = 0; p < ww[chat].player.length; p++) {
                       row.push({
                         title: `Check Player ${ww[chat].player[p].number}`,
-                        rowId: `.ww sorcerer ${ww[chat].player[p].number}`,
+                        rowId: `.wwpc sorcerer ${ww[chat].player[p].number}`,
                         description: `To see the player's identity ${ww[chat].player[p].number}`,
                       });
                     }
@@ -12992,9 +12992,9 @@ let thumb =
                     ];
                     const listMessage = {
                       text: text,
-                      footer: `Player Hidup: ${playerHidup(
+                      footer: `Live Player: ${playerHidup(
                         sesi(m.chat, ww)
-                      )} Player Mati: ${playerMati(sesi(m.chat, ww))}`,
+                      )} Dead Player: ${playerMati(sesi(m.chat, ww))}`,
                       title: "⌂ W E R E W O L F - G A M E\n",
                       buttonText: "Click here!",
                       sections,
@@ -13083,7 +13083,7 @@ let thumb =
           ""
         )} ${
           ww[chat].player[i].isdead === true
-            ? `☠️ ${ww[chat].player[i].role}`
+            ? `(🪦) ${ww[chat].player[i].role}`
             : ""
         }\n`;
             player.push(ww[chat].player[i].id);
